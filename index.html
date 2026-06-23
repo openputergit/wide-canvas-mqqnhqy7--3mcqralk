@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silk Touch | Luxury Men's Grooming & Private Lounge – Ajman</title>
+    
+    <!-- Alpine.js for lightweight, reactive state management (ideal for mock database / CMS rendering) -->
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Google Fonts: Playfair Display (Serif) & Plus Jakarta Sans (Sans-serif) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@200..800&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            black: '#070707',
+                            graphite: '#111111',
+                            gold: '#C8A86B',
+                            goldDark: '#A6844A',
+                            white: '#F8F6F3',
+                            red: '#8B1E1E',
+                            cardBg: 'rgba(17, 17, 17, 0.75)'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom scrollbars and refined typography states */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #070707;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #C8A86B;
+            border-radius: 3px;
+        }
+        
+        .gold-outline-text {
+            -webkit-text-stroke: 1px rgba(200, 168, 107, 0.4);
+            color: transparent;
+        }
+        
+        .glassmorphism {
+            background: rgba(17, 17, 17, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .glassmorphism-light {
+            background: rgba(248, 246, 243, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(17, 17, 17, 0.05);
+        }
+
+        /* Ambient light effects */
+        .ambient-glow {
+            position: absolute;
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, rgba(200, 168, 107, 0.08) 0%, rgba(0,0,0,0) 70%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Subtle smooth animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+    </style>
+</head>
+
+<body class="bg-brand-black text-brand-white font-sans overflow-x-hidden selection:bg-brand-gold selection:text-brand-black" 
+      x-data="silkTouchApp()" x-init="initApp()">
+
+    <!-- BACKGROUND AMBIENT GLOWS -->
+    <div class="ambient-glow top-[15%] left-[-10%]"></div>
+    <div class="ambient-glow top-[50%] right-[-10%]"></div>
+    <div class="ambient-glow top-[80%] left-[20%]"></div>
+
+    <!-- PRE-LOADER / LUXURY WELCOME SPLASH -->
+    <div x-show="loading" x-transition.opacity.duration.800ms class="fixed inset-0 bg-brand-black z-50 flex flex-col justify-center items-center">
+        <div class="text-center space-y-4">
+            <span class="text-xs uppercase tracking-[0.4em] text-brand-gold">Est. 2024</span>
+            <h1 class="text-4xl md:text-5xl font-serif tracking-[0.2em] text-brand-white">SILK TOUCH</h1>
+            <div class="w-16 h-[1px] bg-brand-gold mx-auto mt-4 overflow-hidden relative">
+                <div class="absolute h-full w-1/2 bg-brand-white animate-[subtle-pulse_1.5s_infinite] right-full" style="animation: anim-slide 1.5s infinite"></div>
+            </div>
+            <p class="text-[10px] uppercase text-brand-white/40 tracking-widest pt-2">The Pinnacle of Men's Grooming & Private Spa</p>
+        </div>
+    </div>
+    <script>
+        @keyframes anim-slide { 
+            0% { left: -100%; } 
+            100% { left: 100%; } 
+        }
+    </script>
+
+    <!-- FLOATING VIP WHATSAPP BUTTON -->
+    <a href="https://wa.me/971509174778" target="_blank" 
+       class="fixed bottom-6 right-6 z-40 bg-brand-gold hover:bg-brand-goldDark text-brand-black font-semibold text-sm py-4 px-6 rounded-full shadow-2xl flex items-center gap-3 transition-all duration-300 transform hover:scale-105 border border-brand-white/10">
+        <span class="relative flex h-3.5 w-3.5">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-white opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-brand-red"></span>
+        </span>
+        <i class="bi bi-whatsapp text-lg"></i>
+        <span class="tracking-widest uppercase text-xs font-bold">VIP Concierge</span>
+    </a>
+
+    <!-- SYSTEM GLOBAL NOTIFICATIONS -->
+    <template x-if="notification">
+        <div class="fixed top-24 right-6 z-50 glassmorphism text-brand-white border border-brand-gold/30 px-6 py-4 rounded-lg flex items-center justify-between gap-4 max-w-sm animate-fade-in">
+            <div class="flex items-center gap-3">
+                <i class="bi bi-check2-circle text-brand-gold text-2xl"></i>
+                <div class="text-xs">
+                    <p class="font-bold tracking-wider uppercase text-brand-gold" x-text="notification.title"></p>
+                    <p class="text-brand-white/80" x-text="notification.message"></p>
+                </div>
+            </div>
+            <button @click="notification = null" class="text-brand-white/60 hover:text-brand-white text-sm">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+    </template>
+
+    <!-- HEADER / NAVIGATION (AESOP-INSPIRED FLOATING GLASSMEMBER) -->
+    <header class="fixed top-0 w-full z-40 transition-all duration-500 py-6"
+            :class="scrolled ? 'backdrop-blur-xl bg-brand-black/90 border-b border-brand-white/5 py-4' : 'bg-transparent'">
+        <div class="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
+            
+            <!-- Branding / Logo -->
+            <a href="#hero" class="group flex flex-col">
+                <span class="text-lg md:text-2xl font-serif tracking-[0.25em] text-brand-white transition duration-300 group-hover:text-brand-gold">SILK TOUCH</span>
+                <span class="text-[9px] uppercase tracking-[0.45em] text-brand-gold mt-1">AJMAN, UAE</span>
+            </a>
+
+            <!-- Desktop Nav Items -->
+            <nav class="hidden lg:flex items-center space-x-10 text-xs uppercase tracking-[0.2em] text-brand-white/70">
+                <a href="#about" class="hover:text-brand-gold transition-colors duration-300">About</a>
+                <a href="#services" class="hover:text-brand-gold transition-colors duration-300">Services</a>
+                <a href="#gallery" class="hover:text-brand-gold transition-colors duration-300">Gallery</a>
+                <a href="#booking" class="hover:text-brand-gold transition-colors duration-300">Reservations</a>
+                <a href="#contact" class="hover:text-brand-gold transition-colors duration-300">Location</a>
+                <span class="h-4 w-[1px] bg-brand-white/20"></span>
+                <button @click="adminPortalOpen = true" class="text-brand-gold/80 hover:text-brand-gold transition-colors flex items-center gap-1.5 font-semibold">
+                    <i class="bi bi-shield-lock-fill"></i> Staff CMS
+                </button>
+            </nav>
+
+            <!-- Actions -->
+            <div class="hidden sm:flex items-center space-x-4">
+                <a href="#booking" 
+                   class="bg-transparent hover:bg-brand-gold/10 border border-brand-gold text-brand-gold px-6 py-2.5 rounded-sm text-xs tracking-[0.2em] uppercase font-medium transition-all duration-300">
+                    Book Service
+                </a>
+            </div>
+
+            <!-- Hamburger Button -->
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="lg:hidden text-brand-white hover:text-brand-gold transition-colors">
+                <i class="bi" :class="mobileMenuOpen ? 'bi-x-lg text-2xl' : 'bi-list text-3xl'"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Drawer menu -->
+        <div x-show="mobileMenuOpen" x-transition.opacity.duration.300ms 
+             class="fixed inset-0 top-[70px] bg-brand-black/98 z-30 flex flex-col px-8 py-12 space-y-8 lg:hidden border-t border-brand-white/5 overflow-y-auto">
+            <div class="flex flex-col space-y-6 text-xl font-serif tracking-widest">
+                <a href="#about" @click="mobileMenuOpen = false" class="hover:text-brand-gold transition-colors py-2 border-b border-white/5">The Sanctuary</a>
+                <a href="#services" @click="mobileMenuOpen = false" class="hover:text-brand-gold transition-colors py-2 border-b border-white/5">Grooming & Spa Menu</a>
+                <a href="#gallery" @click="mobileMenuOpen = false" class="hover:text-brand-gold transition-colors py-2 border-b border-white/5">The Atmosphere</a>
+                <a href="#booking" @click="mobileMenuOpen = false" class="hover:text-brand-gold transition-colors py-2 border-b border-white/5">Book Appointment</a>
+                <a href="#contact" @click="mobileMenuOpen = false" class="hover:text-brand-gold transition-colors py-2 border-b border-white/5">Private Lounge Location</a>
+            </div>
+            
+            <div class="pt-8 space-y-4">
+                <button @click="adminPortalOpen = true; mobileMenuOpen = false" class="text-brand-gold hover:text-brand-goldDark flex items-center gap-2 tracking-widest text-sm uppercase">
+                    <i class="bi bi-shield-lock"></i> Staff CMS Panel
+                </button>
+                <div class="w-full h-[1px] bg-brand-white/10 my-4"></div>
+                <p class="text-xs text-brand-white/50 tracking-widest">VIP SPA CONCIERGE: <br><a class="text-brand-gold mt-1 block" href="tel:+971509174778">+971 50 917 4778</a></p>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- 1. HERO SECTION (ULTRA PREMIUM / MOVIE FEEL) -->
+    <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+        <!-- Parallax Cinematic Background Canvas -->
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-gradient-to-t from-brand-black via-brand-black/45 to-brand-black/80 z-10"></div>
+            <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&q=80&w=2000" 
+                 class="w-full h-full object-cover object-top opacity-65 transform scale-105" 
+                 alt="Luxury Grooming Lounge Space">
+        </div>
+
+        <!-- Floating Micro-experience Cards (Tesla / Apple luxury style) -->
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 w-full max-w-6xl px-6 hidden md:grid grid-cols-4 gap-4">
+            <div class="glassmorphism p-5 rounded-lg text-center border-l-2 border-l-brand-gold transition hover:scale-105 duration-300">
+                <i class="bi bi-gem text-brand-gold text-xl mb-1 block"></i>
+                <h4 class="text-xs font-bold tracking-widest uppercase text-brand-white">Filipino Hospitality</h4>
+                <p class="text-[10px] text-brand-white/60 mt-1">Warm, precise & premium care</p>
+            </div>
+            <div class="glassmorphism p-5 rounded-lg text-center border-l-2 border-l-brand-gold transition hover:scale-105 duration-300">
+                <i class="bi bi-layer-backward text-brand-gold text-xl mb-1 block"></i>
+                <h4 class="text-xs font-bold tracking-widest uppercase text-brand-white">Luxury Spa Rituals</h4>
+                <p class="text-[10px] text-brand-white/60 mt-1">Moroccan baths & therapies</p>
+            </div>
+            <div class="glassmorphism p-5 rounded-lg text-center border-l-2 border-l-brand-gold transition hover:scale-105 duration-300">
+                <i class="bi bi-scissors text-brand-gold text-xl mb-1 block"></i>
+                <h4 class="text-xs font-bold tracking-widest uppercase text-brand-white">Exquisite Barbers</h4>
+                <p class="text-[10px] text-brand-white/60 mt-1">Sartorial styles & hair architecture</p>
+            </div>
+            <div class="glassmorphism p-5 rounded-lg text-center border-l-2 border-l-brand-gold transition hover:scale-105 duration-300">
+                <i class="bi bi-shield-heart text-brand-gold text-xl mb-1 block"></i>
+                <h4 class="text-xs font-bold tracking-widest uppercase text-brand-white">Relaxing Sanctuary</h4>
+                <p class="text-[10px] text-brand-white/60 mt-1">Fully secluded premium lounge</p>
+            </div>
+        </div>
+
+        <div class="relative z-10 max-w-5xl mx-auto px-6 text-center pt-10">
+            <div class="inline-flex items-center gap-3 mb-6 bg-brand-gold/10 px-4 py-1.5 rounded-full border border-brand-gold/30 animate-fade-in">
+                <span class="w-1.5 h-1.5 rounded-full bg-brand-gold animate-ping"></span>
+                <span class="font-sans text-[10px] uppercase tracking-[0.35em] text-brand-gold">The Finest Lounge in Ajman</span>
+            </div>
+            
+            <h1 class="text-4xl md:text-7xl lg:text-8xl font-serif text-brand-white tracking-wide leading-[1.08] mb-6 capitalize animate-fade-in" style="animation-delay: 0.2s">
+                The art of <br>
+                <span class="font-light italic text-brand-gold">modern grooming</span>
+            </h1>
+
+            <p class="max-w-xl mx-auto font-sans text-xs md:text-sm text-brand-white/70 tracking-widest leading-relaxed uppercase mb-10 animate-fade-in" style="animation-delay: 0.4s">
+                An ultra-private beauty sanctuary for distinguished gentlemen seeking clinical perfection, premium Moroccan therapy & luxury Filipino hospitality.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in" style="animation-delay: 0.6s">
+                <a href="#booking" 
+                   class="w-full sm:w-auto bg-brand-gold hover:bg-brand-goldDark text-brand-black px-10 py-5 rounded-sm text-xs tracking-[0.3em] uppercase font-bold transition-all duration-300 transform hover:scale-105 shadow-xl shadow-brand-gold/15">
+                    Request Appointment
+                </a>
+                <a href="#services" 
+                   class="w-full sm:w-auto bg-transparent hover:bg-brand-white/5 border border-brand-white/20 text-brand-white px-10 py-5 rounded-sm text-xs tracking-[0.3em] uppercase font-bold transition-all duration-300">
+                    Explore Services Menu
+                </a>
+            </div>
+        </div>
+
+        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 animate-bounce cursor-pointer flex flex-col items-center gap-1 opacity-70">
+            <span class="text-[9px] uppercase tracking-[0.3em] text-brand-gold">Vapor Suite</span>
+            <i class="bi bi-chevron-down text-brand-gold"></i>
+        </div>
+    </section>
+
+
+    <!-- 2. WHY SILK TOUCH (AMARI RESORTS / ROLEX INSPIRED STATEMENT) -->
+    <section id="about" class="py-24 md:py-36 bg-brand-graphite border-y border-brand-white/5 relative">
+        <div class="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            
+            <!-- Beautiful Visual Storytelling Left Column -->
+            <div class="relative space-y-6">
+                <div class="relative z-10 rounded-sm overflow-hidden border border-brand-gold/10">
+                    <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&q=80&w=1200" 
+                         alt="Private Moroccan Steam Bath" 
+                         class="w-full h-[350px] md:h-[480px] object-cover filter brightness-90 saturate-75 transition-all duration-700 hover:scale-105">
+                </div>
+                <!-- Mini overlay tag -->
+                <div class="glassmorphism absolute -bottom-6 -right-6 p-6 rounded border border-brand-gold/20 max-w-sm hidden md:block">
+                    <p class="font-serif italic text-brand-gold text-lg">"Exclusivity at all costs."</p>
+                    <p class="text-[10px] tracking-widest text-brand-white/50 uppercase mt-2">Every treatment is rendered in a closed, completely private soundproof suite.</p>
+                </div>
+            </div>
+
+            <!-- Content Detail Right Column -->
+            <div class="space-y-8 lg:pl-6">
+                <div class="space-y-4">
+                    <span class="text-xs uppercase tracking-[0.4em] text-brand-gold">The Sanctuary Standard</span>
+                    <h2 class="text-3xl md:text-5xl font-serif tracking-wide text-brand-white">
+                        Where Dubai Elegance meets <br>
+                        <span class="italic text-brand-gold font-light">Honest Hospitality</span>
+                    </h2>
+                </div>
+
+                <p class="text-sm text-brand-white/80 tracking-wide leading-relaxed">
+                    Silk Touch redefines Arab gentlemanly beauty. Located in the heart of Ajman, we unite the luxurious aesthetics of high-end wellness resorts in Southeast Asia with clinical grooming technology. 
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-brand-gold/10 flex items-center justify-center border border-brand-gold/30">
+                                <i class="bi bi-star-fill text-[11px] text-brand-gold"></i>
+                            </span>
+                            <h4 class="text-xs uppercase tracking-widest font-bold text-brand-white">Filipino Elite Staff</h4>
+                        </div>
+                        <p class="text-xs text-brand-white/60 leading-relaxed pl-11">Our practitioners hold premium therapeutic certifications directly from Southeast Asia's luxury wellness centers.</p>
+                    </div>
+
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-brand-gold/10 flex items-center justify-center border border-brand-gold/30">
+                                <i class="bi bi-palette-fill text-[11px] text-brand-gold"></i>
+                            </span>
+                            <h4 class="text-xs uppercase tracking-widest font-bold text-brand-white">Premium Aesop & Spa Oils</h4>
+                        </div>
+                        <p class="text-xs text-brand-white/60 leading-relaxed pl-11">We craft custom clay therapy formulas and use exclusively premium certified essential oils & high-end hair serums.</p>
+                    </div>
+
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-brand-gold/10 flex items-center justify-center border border-brand-gold/30">
+                                <i class="bi bi-activity text-[11px] text-brand-gold"></i>
+                            </span>
+                            <h4 class="text-xs uppercase tracking-widest font-bold text-brand-white">Perfect Comfort</h4>
+                        </div>
+                        <p class="text-xs text-brand-white/60 leading-relaxed pl-11">Heated massage tables, automated posture therapy chairs, and bespoke light settings per suite.</p>
+                    </div>
+
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-brand-gold/10 flex items-center justify-center border border-brand-gold/30">
+                                <i class="bi bi-clock-history text-[11px] text-brand-gold"></i>
+                            </span>
+                            <h4 class="text-xs uppercase tracking-widest font-bold text-brand-white">Clockwork Precision</h4>
+                        </div>
+                        <p class="text-xs text-brand-white/60 leading-relaxed pl-11">No waiting times. If your slot starts at 4:00 PM, your personal therapist greets you exactly at 4:00 PM.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- 3. SERVICES SHOWCASE (MASSIVE CARD INTERACTION, DYNAMIC LISTS) -->
+    <section id="services" class="py-24 md:py-32 relative">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+            
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16">
+                <div class="space-y-4">
+                    <span class="text-xs uppercase tracking-[0.4em] text-brand-gold">Exquisite Treatment Menu</span>
+                    <h2 class="text-3xl md:text-5xl font-serif tracking-wide text-brand-white">
+                        Curated Grooming <br> <span class="italic text-brand-gold font-light">& Wellness Rituals</span>
+                    </h2>
+                </div>
+                <p class="text-xs uppercase tracking-[0.2em] text-brand-white/50 max-w-md pt-4 md:pt-0 leading-relaxed">
+                    Designed for luxury. Below are our signature departments. We do not compromise on ingredients, time, or dedication.
+                </p>
+            </div>
+
+            <!-- Dynamic Category Grid loaded directly from JSON State (Editable from CMS!) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <template x-for="service in services" :key="service.id">
+                    <div class="glassmorphism group p-8 rounded-lg transition-all duration-500 hover:scale-[1.02] hover:border-brand-gold/40 flex flex-col justify-between relative overflow-hidden">
+                        <!-- Luxury Background Image Glow effect on Hover -->
+                        <div class="absolute -right-10 -bottom-10 opacity-5 group-hover:opacity-10 transition-opacity duration-500 text-8xl text-brand-gold">
+                            <i class="bi" :class="service.icon"></i>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between items-start mb-6">
+                                <span class="w-12 h-12 rounded-sm bg-brand-gold/10 border border-brand-gold/20 flex items-center justify-center transition-all duration-500 group-hover:bg-brand-gold group-hover:text-brand-black">
+                                    <i class="bi text-xl text-brand-gold group-hover:text-brand-black" :class="service.icon"></i>
+                                </span>
+                                <span class="text-[10px] tracking-widest uppercase font-bold text-brand-gold" x-text="service.benefit"></span>
+                            </div>
+
+                            <h3 class="text-xl font-serif text-brand-white mb-3 group-hover:text-brand-gold transition-colors duration-300" x-text="service.title"></h3>
+                            <p class="text-xs text-brand-white/70 leading-relaxed tracking-wider mb-6" x-text="service.description"></p>
+
+                            <!-- Sub-items Bullet list -->
+                            <ul class="border-t border-brand-white/5 pt-4 space-y-2">
+                                <template x-for="item in service.bullets" :key="item">
+                                    <li class="flex items-center gap-2 text-[11px] text-brand-white/50 tracking-wider">
+                                        <span class="w-1 h-1 bg-brand-gold rounded-full"></span>
+                                        <span x-text="item"></span>
+                                    </li>
+                                </template>
+                            </ul>
+                        </div>
+
+                        <div class="pt-8">
+                            <a :href="'#booking?service=' + encodeURIComponent(service.title)" 
+                               @click="selectServiceInForm(service.title)"
+                               class="w-full text-center block bg-transparent group-hover:bg-brand-gold text-brand-gold group-hover:text-brand-black border border-brand-gold/30 hover:border-brand-gold py-3 px-4 rounded-sm text-[10px] font-bold tracking-[0.25em] uppercase transition-all duration-300">
+                                Reserve Slot
+                            </a>
+                        </div>
+                    </div>
+                </template>
+            </div>
+
+            <!-- Custom treatment packages warning note -->
+            <div class="mt-12 glassmorphism border-l-4 border-l-brand-gold p-6 rounded-sm text-center md:text-left flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="space-y-1">
+                    <p class="text-xs uppercase tracking-widest font-bold text-brand-gold">Looking for custom combination treatments?</p>
+                    <p class="text-[11px] text-brand-white/60 tracking-wider">Configure multiple services during booking or request customized spa packages directly via WhatsApp.</p>
+                </div>
+                <a href="https://wa.me/971509174778" target="_blank" class="bg-brand-white/5 hover:bg-brand-white/10 border border-brand-white/10 text-brand-white text-xs tracking-widest uppercase px-6 py-3 font-semibold transition-all">
+                    WhatsApp Concierge
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- 4. IMMERSIVE GALLERY (MASONRY GRID & TRANSFORMATIONS) -->
+    <section id="gallery" class="py-24 md:py-32 bg-brand-graphite relative">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+            
+            <div class="text-center space-y-4 mb-16">
+                <span class="text-xs uppercase tracking-[0.4em] text-brand-gold">Visual Masterpieces & Atmosphere</span>
+                <h2 class="text-3xl md:text-5xl font-serif tracking-wide text-brand-white">Inside our Ajman sanctuary</h2>
+                <div class="w-12 h-[1px] bg-brand-gold mx-auto mt-2"></div>
+            </div>
+
+            <!-- Dynamic Filter Tabs -->
+            <div class="flex justify-center flex-wrap gap-4 mb-12">
+                <template x-for="cat in galleryCategories">
+                    <button @click="activeGalleryCat = cat.id"
+                            class="px-5 py-2.5 rounded-full text-[10px] uppercase tracking-widest font-bold transition-all duration-300"
+                            :class="activeGalleryCat === cat.id ? 'bg-brand-gold text-brand-black shadow-lg shadow-brand-gold/15' : 'bg-brand-white/5 text-brand-white/60 hover:text-brand-white border border-transparent hover:border-brand-white/10'"
+                            x-text="cat.name">
+                    </button>
+                </template>
+            </div>
+
+            <!-- Gallery Grid Showcase (Filtered dynamically) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <template x-for="img in galleryImages" :key="img.id">
+                    <div x-show="activeGalleryCat === 'all' || img.category === activeGalleryCat" 
+                         x-transition.scale.duration.400ms
+                         class="group relative h-80 rounded-sm overflow-hidden border border-brand-white/5 bg-brand-black">
+                        
+                        <img :src="img.src" :alt="img.title" class="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 filter brightness-90 saturate-75">
+                        
+                        <!-- Premium Elegant Overlay -->
+                        <div class="absolute inset-0 bg-gradient-to-t from-brand-black via-brand-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                            <span class="text-[9px] uppercase tracking-widest text-brand-gold" x-text="img.category"></span>
+                            <h4 class="text-lg font-serif text-brand-white mt-1" x-text="img.title"></h4>
+                            <p class="text-[10px] text-brand-white/60 tracking-wider mt-1" x-text="img.desc"></p>
+                        </div>
+                    </div>
+                </template>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- 5. BOOK APPOINTMENT (DYNAMIC LUXURY CALENDAR UI) -->
+    <section id="booking" class="py-24 md:py-36 relative">
+        <div class="max-w-5xl mx-auto px-6 md:px-12">
+            
+            <div class="text-center space-y-4 mb-16">
+                <span class="text-xs uppercase tracking-[0.45em] text-brand-gold">Online Reservations Desk</span>
+                <h2 class="text-3xl md:text-5xl font-serif tracking-wide text-brand-white">Secure your private slot</h2>
+                <p class="text-xs uppercase tracking-widest text-brand-white/50 max-w-md mx-auto pt-2">Selected slots are locked dynamically. Please select your desired session below.</p>
+                <div class="w-12 h-[1px] bg-brand-gold mx-auto"></div>
+            </div>
+
+            <!-- Booking Assistant Widget Card -->
+            <div class="glassmorphism p-6 md:p-12 rounded-lg border border-brand-gold/20 relative z-10">
+                <form @submit.prevent="submitBooking">
+                    <div class="space-y-8">
+                        
+                        <!-- Form Section 1: Customer Info -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-[10px] uppercase tracking-widest text-brand-gold font-bold mb-2">Guest Name*</label>
+                                <input type="text" x-model="bookingForm.name" required placeholder="GENTLEMAN'S FULL NAME" 
+                                       class="w-full bg-brand-black/50 border border-brand-white/10 focus:border-brand-gold px-4 py-3.5 text-xs text-brand-white rounded-sm focus:outline-none transition-all placeholder:text-brand-white/20">
+                            </div>
+
+                            <div>
+                                <label class="block text-[10px] uppercase tracking-widest text-brand-gold font-bold mb-2">Phone Number / WhatsApp*</label>
+                                <input type="tel" x-model="bookingForm.phone" required placeholder="E.G. +971 50 XXXXXXX" 
+                                       class="w-full bg-brand-black/50 border border-brand-white/10 focus:border-brand-gold px-4 py-3.5 text-xs text-brand-white rounded-sm focus:outline-none transition-all placeholder:text-brand-white/20">
+                            </div>
+                        </div>
+
+                        <!-- Form Section 2: Service Selection -->
+                        <div>
+                            <label class="block text-[10px] uppercase tracking-widest text-brand-gold font-bold mb-2">Selected Ritual*</label>
+                            <select x-model="bookingForm.service" required 
+                                    class="w-full bg-brand-black/50 border border-brand-white/10 focus:border-brand-gold px-4 py-3.5 text-xs text-brand-white rounded-sm focus:outline-none transition-all">
+                                <option value="" class="bg-brand-black text-brand-white/40">Select a treatment department...</option>
+                                <template x-for="srv in services" :key="srv.title">
+                                    <option :value="srv.title" class="bg-brand-black" x-text="srv.title"></option>
+                                </template>
+                            </select>
+                        </div>
+
+                        <!-- Form Section 3: Date Picker & Realtime interactive calendar grid -->
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 pt-4 border-t border-brand-white/5">
+                            
+                            <!-- Custom Designed Date Picker Row -->
+                            <div>
+                                <label class="block text-[10px] uppercase tracking-widest text-brand-gold font-bold mb-3">1. Select Reservation Date</label>
+                                <input type="date" x-model="bookingForm.date" @input="updateTimeslots" :min="todayDateString" required
+                                       class="w-full bg-brand-black/50 border border-brand-white/10 focus:border-brand-gold px-4 py-3 text-xs text-brand-white rounded-sm focus:outline-none transition-all mb-4">
+                                <p class="text-[10px] text-brand-white/40 leading-relaxed uppercase tracking-wider">
+                                    Reservations can be requested up to 30 days in advance. Open daily from 10:00 AM to 11:30 PM.
+                                </p>
+                            </div>
+
+                            <!-- Custom Interactive Time Slots Selector grid (Dynamic CSS) -->
+                            <div>
+                                <label class="block text-[10px] uppercase tracking-[0.15em] text-brand-gold font-bold mb-3">2. Select Session Time</label>
+                                <div class="grid grid-cols-3 gap-2">
+                                    <template x-for="time in timeSlots" :key="time">
+                                        <button type="button" 
+                                                @click="selectTime(time)"
+                                                :disabled="isTimeBlocked(time)"
+                                                class="py-2.5 px-1.5 text-[11px] font-mono tracking-widest rounded-sm border uppercase text-center transition-all duration-300"
+                                                :class="isTimeBlocked(time) ? 'bg-brand-black/30 border-brand-white/5 text-brand-white/20 line-through cursor-not-allowed' : 
+                                                        (bookingForm.time === time ? 'bg-brand-gold border-brand-gold text-brand-black font-semibold shadow-lg shadow-brand-gold/15' : 'bg-brand-black border-brand-white/10 hover:border-brand-gold text-brand-white/80 hover:text-brand-white')">
+                                            <span x-text="time"></span>
+                                        </button>
+                                    </template>
+                                </div>
+                                <div class="flex items-center gap-4 mt-3 text-[10px] text-brand-white/40 tracking-wider">
+                                    <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-brand-white/20"></span> Blocked/Booked</span>
+                                    <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-brand-gold"></span> Your Selection</span>
+                                    <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full border border-brand-white/35"></span> Available</span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Submit Booking Area with Confirmation Indicator -->
+                        <div class="border-t border-brand-white/5 pt-8 text-center flex flex-col items-center justify-center space-y-4">
+                            <span class="text-[10px] tracking-widest text-brand-white/40 uppercase">
+                                Real-time dynamic slots: booking through website instantly triggers the WhatsApp dispatcher.
+                            </span>
+
+                            <button type="submit" 
+                                    class="w-full md:w-auto bg-brand-gold hover:bg-brand-goldDark text-brand-black px-12 py-5 rounded-sm text-xs tracking-[0.3em] uppercase font-bold transition-all duration-300 transform hover:scale-[1.02]">
+                                Request Reservation Online <i class="bi bi-arrow-right-short text-lg ml-2 align-middle"></i>
+                            </button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- 6. VISIT US (ELEGANT ADRESS, PHONE & CUSTOM STYLED GOOGLE MAPS) -->
+    <section id="contact" class="py-24 bg-brand-graphite border-t border-brand-white/5 relative">
+        <div class="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            
+            <div class="space-y-8">
+                <div class="space-y-4">
+                    <span class="text-xs uppercase tracking-[0.4em] text-brand-gold">Our Coordinates</span>
+                    <h2 class="text-3xl md:text-5xl font-serif tracking-wide text-brand-white">Located in the luxury heart of Ajman</h2>
+                    <p class="text-xs tracking-widest text-brand-white/50 uppercase">Discreet entrance and private secure driveway for high-end clientele.</p>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="flex items-start gap-4">
+                        <span class="w-10 h-10 rounded-sm bg-brand-gold/10 border border-brand-gold/20 flex items-center justify-center text-brand-gold mt-1">
+                            <i class="bi bi-geo-alt"></i>
+                        </span>
+                        <div>
+                            <h4 class="text-xs uppercase tracking-widest font-bold text-brand-white">Sanctuary Address</h4>
+                            <p class="text-sm text-brand-white/70 mt-1">Al Salam St, Al Rawda 3, Ajman, United Arab Emirates</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4">
+                        <span class="w-10 h-10 rounded-sm bg-brand-gold/10 border border-brand-gold/20 flex items-center justify-center text-brand-gold mt-1">
+                            <i class="bi bi-telephone-outbound"></i>
+                        </span>
+                        <div>
+                            <h4 class="text-xs uppercase tracking-widest font-bold text-brand-white">Direct Hotline / WhatsApp</h4>
+                            <p class="text-sm text-brand-white/70 mt-1">
+                                <a href="tel:+971509174778" class="hover:text-brand-gold transition">+971 50 917 4778</a>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4">
+                        <span class="w-10 h-10 rounded-sm bg-brand-gold/10 border border-brand-gold/20 flex items-center justify-center text-brand-gold mt-1">
+                            <i class="bi bi-clock"></i>
+                        </span>
+                        <div>
+                            <h4 class="text-xs uppercase tracking-widest font-bold text-brand-white">Working Hours</h4>
+                            <p class="text-sm text-brand-white/70 mt-1">Open Daily from 10:00 AM to 11:30 PM (Prior Reservation Obligatory)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-4 flex gap-4">
+                    <a href="https://wa.me/971509174778" target="_blank"
+                       class="bg-brand-gold/10 hover:bg-brand-gold/20 text-brand-gold border border-brand-gold/30 px-6 py-3.5 rounded-sm text-xs tracking-widest uppercase font-bold transition">
+                        <i class="bi bi-cursor-fill mr-1"></i> Navigate via Apple / Google Maps
+                    </a>
+                </div>
+            </div>
+
+            <!-- Custom Mock Map or Styled Google Maps Container -->
+            <div class="rounded-sm overflow-hidden border border-brand-gold/20 shadow-2xl relative h-96">
+                <iframe 
+                    class="w-full h-full grayscale opacity-75 contrast-125 filter max-w-full"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d115286.082531608!2d55.45274577883391!3d25.4011400277322!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f583eb5a48569%3A0x6bba847c227cd60b!2sAjman!5e0!3m2!1sen!2sae!4v1700000000000!5m2!1sen!2sae" 
+                    frameborder="0" 
+                    scrolling="no" 
+                    marginheight="0" 
+                    marginwidth="0">
+                </iframe>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- 7. SOCIAL PROOF (LUXURY TESTIMONIAL CARDS) -->
+    <section class="py-24 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+            
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16">
+                <div class="space-y-4">
+                    <span class="text-xs uppercase tracking-[0.4em] text-brand-gold">Veritable Testimonials</span>
+                    <h2 class="text-3xl md:text-5xl font-serif tracking-wide text-brand-white">
+                        Sanctuary stories <br> <span class="italic text-brand-gold font-light">by our distinguished gentlemen</span>
+                    </h2>
+                </div>
+                <!-- Dynamic Interactive Add Review Trigger button -->
+                <button @click="testimonialModalOpen = true" 
+                        class="mt-4 md:mt-0 bg-transparent hover:bg-brand-gold/10 border border-brand-gold/30 text-brand-gold text-xs tracking-widest uppercase px-6 py-3 font-semibold transition">
+                     Express Your Feedback
+                </button>
+            </div>
+
+            <!-- Testimonial Grid (Dynamically editable from CMS database!) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <template x-for="review in testimonials" :key="review.id">
+                    <div class="glassmorphism p-8 rounded-lg flex flex-col justify-between border-t border-t-brand-gold/25 relative">
+                        <span class="absolute top-6 right-8 text-5xl text-brand-gold/10 font-serif font-bold">“</span>
+                        
+                        <div>
+                            <!-- Star rating -->
+                            <div class="flex items-center gap-1 mb-4">
+                                <template x-for="star in Array.from({length: review.rating})">
+                                    <i class="bi bi-star-fill text-[11px] text-brand-gold"></i>
+                                </template>
+                            </div>
+                            <p class="text-xs tracking-widest text-brand-gold uppercase font-bold mb-2" x-text="review.treatment"></p>
+                            <p class="text-xs text-brand-white/80 leading-relaxed italic" x-text="'&ldquo;' + review.text + '&rdquo;'"></p>
+                        </div>
+
+                        <div class="border-t border-brand-white/5 pt-6 mt-6 flex items-center justify-between">
+                            <div>
+                                <h4 class="text-xs uppercase tracking-widest font-bold text-brand-white" x-text="review.name"></h4>
+                                <span class="text-[9px] text-brand-white/40 tracking-wider" x-text="review.title"></span>
+                            </div>
+                            <i class="bi bi-patch-check-fill text-brand-gold text-md" title="Verified Patron Appointment"></i>
+                        </div>
+                    </div>
+                </template>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- 8. INSTAGRAM + TIKTOK SHOWCASE (CINEMATIC VIDEOS & POST FEED) -->
+    <section class="py-24 bg-brand-graphite border-t border-brand-white/5">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+            
+            <div class="text-center space-y-4 mb-16">
+                <span class="text-xs uppercase tracking-[0.4em] text-brand-gold">The Digital Grid</span>
+                <h2 class="text-3xl md:text-5xl font-serif tracking-wide text-brand-white">Instagram & TikTok captures</h2>
+                <p class="text-xs uppercase tracking-[0.15em] text-brand-white/50">Follow @SilkTouchAjman for exclusive previews and grooming tutorials</p>
+                <div class="w-12 h-[1px] bg-brand-gold mx-auto"></div>
+            </div>
+
+            <!-- Dynamic grid simulating high-end videos with custom custom overlay transitions -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- Card 1 -->
+                <div class="group relative aspect-[3/4] overflow-hidden rounded bg-brand-black border border-brand-white/10">
+                    <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&q=80&w=600" alt="Insta Post" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 brightness-75">
+                    <div class="absolute inset-0 bg-brand-black/75 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                        <i class="bi bi-instagram text-brand-gold text-2xl mb-2"></i>
+                        <h4 class="text-xs uppercase tracking-widest font-bold text-brand-white">Moroccan Bath Therapy 💆‍♂️</h4>
+                        <p class="text-[10px] text-brand-white/60 tracking-wider mt-1">"Deep clean, full body essential wraps in traditional steam sauna environment..."</p>
+                        <a href="https://instagram.com" class="text-brand-gold text-[10px] uppercase font-bold tracking-widest mt-4 hover:underline">View Post <i class="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="group relative aspect-[3/4] overflow-hidden rounded bg-brand-black border border-brand-white/10">
+                    <img src="https://images.unsplash.com/photo-1517832606299-7ae9b720a186?auto=format&fit=crop&q=80&w=600" alt="Insta Post" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 brightness-75">
+                    <div class="absolute inset-0 bg-brand-black/75 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                        <i class="bi bi-tiktok text-brand-gold text-2xl mb-2"></i>
+                        <h4 class="text-xs uppercase tracking-widest font-bold text-brand-white">Royal Luxury Shave 🪒</h4>
+                        <p class="text-[10px] text-brand-white/60 tracking-wider mt-1">"Indulging in standard classic hot towel shaves using our traditional straight edge..."</p>
+                        <a href="https://tiktok.com" class="text-brand-gold text-[10px] uppercase font-bold tracking-widest mt-4 hover:underline">View Loop <i class="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="group relative aspect-[3/4] overflow-hidden rounded bg-brand-black border border-brand-white/10">
+                    <img src="https://images.unsplash.com/photo-1600334129128-685c5582fd35?auto=format&fit=crop&q=80&w=600" alt="Insta Post" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 brightness-75">
+                    <div class="absolute inset-0 bg-brand-black/75 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                        <i class="bi bi-instagram text-brand-gold text-2xl mb-2"></i>
+                        <h4 class="text-xs uppercase tracking-widest font-bold text-brand-white">Filipino Massage Suite Comfort 🍃</h4>
+                        <p class="text-[10px] text-brand-white/60 tracking-wider mt-1">"Unwinding after a long stressful executive week inside the Ajman private parlor."</p>
+                        <a href="https://instagram.com" class="text-brand-gold text-[10px] uppercase font-bold tracking-widest mt-4 hover:underline">View Post <i class="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="group relative aspect-[3/4] overflow-hidden rounded bg-brand-black border border-brand-white/10">
+                    <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&q=80&w=600" alt="Insta Post" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 brightness-75">
+                    <div class="absolute inset-0 bg-brand-black/75 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                        <i class="bi bi-tiktok text-brand-gold text-2xl mb-2"></i>
+                        <h4 class="text-xs uppercase tracking-widest font-bold text-brand-white">Unboxing Aesop Materials 📦</h4>
+                        <p class="text-[10px] text-brand-white/60 tracking-wider mt-1">"Receiving our fresh weekly batch of high-end skin exfoliates direct from Australia..."</p>
+                        <a href="https://tiktok.com" class="text-brand-gold text-[10px] uppercase font-bold tracking-widest mt-4 hover:underline">View Loop <i class="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- FOOTER (LUXUARY SITEMAP / COPYRIGHT) -->
+    <footer class="bg-brand-black border-t border-brand-white/5 py-16 text-brand-white/70">
+        <div class="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+            
+            <div class="space-y-4">
+                <span class="text-xl font-serif text-brand-white tracking-widest">SILK TOUCH</span>
+                <p class="text-xs leading-relaxed max-w-xs tracking-wider">
+                    Luxury Men's Personal Care & Beauty Sanctuary. Setting the global benchmark for luxury beauty in Ajman, UAE.
+                </p>
+                <div class="flex gap-4 pt-2">
+                    <a href="https://instagram.com" class="text-brand-white/60 hover:text-brand-gold transition"><i class="bi bi-instagram text-lg"></i></a>
+                    <a href="https://tiktok.com" class="text-brand-white/60 hover:text-brand-gold transition"><i class="bi bi-tiktok text-lg"></i></a>
+                    <a href="https://wa.me/971509174778" class="text-brand-white/60 hover:text-brand-gold transition"><i class="bi bi-whatsapp text-lg"></i></a>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="text-xs uppercase tracking-widest text-brand-white font-bold mb-4">Navigations</h4>
+                <ul class="space-y-2 text-xs">
+                    <li><a href="#about" class="hover:text-brand-gold transition-colors">The Sanctuary Suite</a></li>
+                    <li><a href="#services" class="hover:text-brand-gold transition-colors">Treatment Menu</a></li>
+                    <li><a href="#gallery" class="hover:text-brand-gold transition-colors">Lounge Gallery</a></li>
+                    <li><a href="#booking" class="hover:text-brand-gold transition-colors">Secure Reservation Desk</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-xs uppercase tracking-widest text-brand-white font-bold mb-4">Luxury Services</h4>
+                <ul class="space-y-2 text-xs">
+                    <li><a href="#services" class="hover:text-brand-gold transition-colors">Sartorial Hair Styling</a></li>
+                    <li><a href="#services" class="hover:text-brand-gold transition-colors">Traditional Moroccan Bath</a></li>
+                    <li><a href="#services" class="hover:text-brand-gold transition-colors">Executive Massage Suite</a></li>
+                    <li><a href="#services" class="hover:text-brand-gold transition-colors">Clinical Facial Exfoliate</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-xs uppercase tracking-widest text-brand-white font-bold mb-4">Direct Contact</h4>
+                <p class="text-xs leading-relaxed text-brand-white/80">
+                    Al Salam St, Al Rawda 3, Ajman, UAE <br>
+                    Hotline: <a href="tel:+971509174778" class="text-brand-gold font-semibold">+971 50 917 4778</a> <br>
+                    Email: concierge@silktouch.ae
+                </p>
+                <button @click="adminPortalOpen = true" class="mt-4 text-xs text-brand-gold underline hover:no-underline flex items-center gap-1">
+                    <i class="bi bi-shield-lock-fill"></i> Staff Login (CMS System)
+                </button>
+            </div>
+
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 md:px-12 border-t border-brand-white/5 pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-brand-white/40">
+            <p>© 2025 Silk Touch Personal Care Grooming. All rights reserved.</p>
+            <div class="flex gap-6 mt-4 md:mt-0">
+                <a href="#booking" class="hover:text-brand-white">Terms of Exclusivity</a>
+                <a href="#booking" class="hover:text-brand-white">Privacy Compact</a>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- ==============================================
+         CMS ADMIN PORTAL MODAL (SIMULATED SPA / DIRECT EDITING)
+         ============================================== -->
+    <div x-show="adminPortalOpen" 
+         x-transition.opacity.duration.300ms 
+         class="fixed inset-0 z-50 bg-brand-black/95 backdrop-blur-md flex items-center justify-center p-4">
+        
+        <div class="glassmorphism w-full max-w-5xl h-[85vh] rounded-lg border border-brand-gold/30 flex flex-col overflow-hidden animate-fade-in">
+            
+            <!-- CMS Header -->
+            <div class="bg-brand-graphite px-8 py-5 border-b border-brand-white/5 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <span class="w-3.5 h-3.5 rounded-full bg-brand-gold animate-pulse"></span>
+                    <h3 class="text-md uppercase font-bold tracking-[0.2em] font-serif text-brand-gold">SILK TOUCH CLOUD BACKOFFICE</h3>
+                    <span class="text-[9px] bg-brand-white/10 px-2 py-0.5 rounded text-brand-white/60">Live LocalDB v1.0</span>
+                </div>
+                <button @click="adminPortalOpen = false" class="text-brand-white/60 hover:text-brand-white">
+                    <i class="bi bi-x-lg text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Login Check overlay state -->
+            <div x-show="!adminLoggedIn" class="flex-1 flex flex-col items-center justify-center p-8 bg-brand-black/45">
+                <div class="w-full max-w-sm text-center space-y-6">
+                    <div class="w-14 h-14 rounded-full bg-brand-gold/10 border border-brand-gold/20 flex items-center justify-center text-brand-gold mx-auto text-xl">
+                        <i class="bi bi-shield-lock-fill"></i>
+                    </div>
+                    <div class="space-y-1">
+                        <h4 class="text-xs uppercase tracking-widest font-bold text-brand-white">Enter Security Clearance PIN</h4>
+                        <p class="text-[10px] text-brand-white/40 leading-relaxed uppercase">AUTHORIZED TEAM MEMBERS ONLY</p>
+                    </div>
+                    <div>
+                        <input type="password" x-model="adminPinInput" placeholder="ENTER 4-DIGIT PIN" @keyup.enter="loginAdmin"
+                               class="w-full bg-brand-black border border-brand-white/10 focus:border-brand-gold text-center tracking-[0.6em] px-4 py-3 rounded text-sm focus:outline-none">
+                    </div>
+                    <button @click="loginAdmin" 
+                            class="w-full bg-brand-gold hover:bg-brand-goldDark text-brand-black py-3 rounded text-xs uppercase tracking-widest font-bold font-serif transition">
+                        Verify Code
+                    </button>
+                    <p class="text-[9px] text-brand-gold/60 uppercase">Hint: Enter "1234" to demo simulated CMS panel</p>
+                </div>
+            </div>
+
+            <!-- Authentic Backoffice Dashboard UI (Visible upon login Verification) -->
+            <div x-show="adminLoggedIn" class="flex-1 flex overflow-hidden">
+                
+                <!-- CMS Sidebar Navigation -->
+                <div class="w-64 bg-brand-black border-r border-brand-white/5 p-6 flex flex-col justify-between hidden md:flex">
+                    <div class="space-y-6">
+                        <p class="text-[10px] uppercase text-brand-white/40 tracking-widest font-bold">Menu Navigation</p>
+                        <div class="flex flex-col space-y-1">
+                            <button @click="adminActiveTab = 'bookings'" 
+                                    class="w-full text-left py-3 px-4 rounded text-xs tracking-widest uppercase flex items-center justify-between"
+                                    :class="adminActiveTab === 'bookings' ? 'bg-brand-gold text-brand-black font-semibold' : 'text-brand-white hover:bg-brand-white/5'">
+                                <span><i class="bi bi-calendar3 mr-2"></i> Bookings</span>
+                                <span class="bg-brand-red text-white text-[9px] px-1.5 py-0.5 rounded" x-text="bookings.filter(b => b.status === 'Pending').length"></span>
+                            </button>
+                            <button @click="adminActiveTab = 'slots'" 
+                                    class="w-full text-left py-3 px-4 rounded text-xs tracking-widest uppercase flex items-center justify-between"
+                                    :class="adminActiveTab === 'slots' ? 'bg-brand-gold text-brand-black font-semibold' : 'text-brand-white hover:bg-brand-white/5'">
+                                <span><i class="bi bi-clock-history mr-2"></i> Block Slots</span>
+                            </button>
+                            <button @click="adminActiveTab = 'services'" 
+                                    class="w-full text-left py-3 px-4 rounded text-xs tracking-widest uppercase flex items-center justify-between"
+                                    :class="adminActiveTab === 'services' ? 'bg-brand-gold text-brand-black font-semibold' : 'text-brand-white hover:bg-brand-white/5'">
+                                <span><i class="bi bi-palette mr-2"></i> Edit Services</span>
+                            </button>
+                            <button @click="adminActiveTab = 'testimonials'" 
+                                    class="w-full text-left py-3 px-4 rounded text-xs tracking-widest uppercase flex items-center justify-between"
+                                    :class="adminActiveTab === 'testimonials' ? 'bg-brand-gold text-brand-black font-semibold' : 'text-brand-white hover:bg-brand-white/5'">
+                                <span><i class="bi bi-chat-quote mr-2"></i> Feedback CMS</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="pt-6 border-t border-brand-white/5 text-center">
+                        <button @click="adminLoggedIn = false" class="text-[10px] text-brand-red font-bold hover:underline tracking-widest uppercase">
+                            <i class="bi bi-power"></i> Revoke Session
+                        </button>
+                    </div>
+                </div>
+
+                <!-- CMS Sub Tab Areas -->
+                <div class="flex-1 p-6 md:p-8 overflow-y-auto bg-brand-black/35">
+                    
+                    <!-- TAB 1: RE-TIME APPOINTMENTS DISPLAY MANAGER -->
+                    <div x-show="adminActiveTab === 'bookings'" class="space-y-6">
+                        <div class="flex items-center justify-between border-b border-brand-white/5 pb-4">
+                            <div>
+                                <h3 class="text-lg font-serif text-brand-white">Reservation Dispatch Queue</h3>
+                                <p class="text-xs text-brand-white/40">Approving reservations marks them clean, and enables slot database verification.</p>
+                            </div>
+                        </div>
+
+                        <!-- Bookings list -->
+                        <div class="space-y-4">
+                            <template x-if="bookings.length === 0">
+                                <p class="text-xs text-brand-white/40 text-center py-12">No online appointments registered in local memory database.</p>
+                            </template>
+                            <template x-for="item in bookings" :key="item.id">
+                                <div class="glassmorphism p-5 rounded-md flex flex-col md:flex-row md:items-center justify-between gap-4 border-l-2"
+                                     :class="item.status === 'Approved' ? 'border-l-emerald-500' : (item.status === 'Rejected' ? 'border-l-brand-red' : 'border-l-brand-gold')">
+                                    <div class="space-y-1">
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-xs font-bold uppercase tracking-widest text-brand-gold" x-text="item.name"></span>
+                                            <span class="text-[9px] uppercase tracking-wider px-2 py-0.5 rounded bg-brand-white/5" x-text="item.service"></span>
+                                        </div>
+                                        <p class="text-[11px] text-brand-white/70 tracking-wider">
+                                            Requested Date: <strong class="text-brand-white" x-text="item.date"></strong> | Time: <strong class="text-brand-white" x-text="item.time"></strong>
+                                        </p>
+                                        <p class="text-[11px] text-brand-white/50">WhatsApp Contact: <span x-text="item.phone"></span></p>
+                                    </div>
+                                    
+                                    <div class="flex items-center gap-2">
+                                        <button @click="approveBooking(item.id)" x-show="item.status === 'Pending'"
+                                                class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-[10px] tracking-widest uppercase rounded">
+                                            Approve
+                                        </button>
+                                        <button @click="rejectBooking(item.id)" x-show="item.status === 'Pending'"
+                                                class="px-3 py-1.5 bg-brand-red/80 hover:bg-brand-red text-white text-[10px] tracking-widest uppercase rounded">
+                                            Reject
+                                        </button>
+                                        <!-- Status Indicator badge -->
+                                        <span x-show="item.status !== 'Pending'" 
+                                              class="text-[9px] font-bold tracking-widest uppercase px-3 py-1.5 rounded"
+                                              :class="item.status === 'Approved' ? 'bg-emerald-500/10 text-emerald-500' : 'bg-brand-red/10 text-brand-red'"
+                                              x-text="item.status">
+                                        </span>
+                                        <button @click="deleteBooking(item.id)" class="text-brand-white/40 hover:text-brand-red p-2 text-xs">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+
+
+                    <!-- TAB 2: BLOCK SPECIFIC TIME SLOTS -->
+                    <div x-show="adminActiveTab === 'slots'" class="space-y-6">
+                        <div class="border-b border-brand-white/5 pb-4">
+                            <h3 class="text-lg font-serif text-brand-white">Block / Freeze Time Slots</h3>
+                            <p class="text-xs text-brand-white/40">Select days or specific constant hours to disable them instantly on the frontend appointment calendar.</p>
+                        </div>
+
+                        <div>
+                            <label class="block text-[10px] uppercase tracking-widest text-brand-gold font-bold mb-3">Currently Blocked Dynamic Slots:</label>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                <template x-for="time in timeSlots">
+                                    <button @click="toggleBlockSlotInCMS(time)"
+                                            class="p-3 text-[11px] font-bold font-mono tracking-widest rounded-sm border transition uppercase flex items-center justify-between"
+                                            :class="isTimeBlocked(time) ? 'bg-brand-red/20 border-brand-red text-brand-white' : 'bg-brand-black/50 border-brand-white/10 text-brand-white/40 hover:border-brand-gold'">
+                                        <span x-text="time"></span>
+                                        <span x-text="isTimeBlocked(time) ? 'Blocked' : 'Active'" class="text-[9px]"></span>
+                                    </button>
+                                </template>
+                            </div>
+                            <p class="text-[11px] text-brand-white/40 leading-relaxed tracking-wider mt-4">
+                                *Note: Clicking any status above will dynamically freeze or activate the booking capability instantly on the public side!
+                            </p>
+                        </div>
+                    </div>
+
+
+                    <!-- TAB 3: SERVICES CMS (ADD / UPDATE MENU) -->
+                    <div x-show="adminActiveTab === 'services'" class="space-y-6">
+                        <div class="border-b border-brand-white/5 pb-4 flex justify-between items-center">
+                            <div>
+                                <h3 class="text-lg font-serif text-brand-white">Manage Service Showcase</h3>
+                                <p class="text-xs text-brand-white/40">Add or edit current departments rendered in the main grooming menu.</p>
+                            </div>
+                            <button @click="addNewServiceInCMS" class="bg-brand-gold hover:bg-brand-goldDark text-brand-black text-[10px] tracking-widest uppercase px-4 py-2 font-bold rounded">
+                                + Add Service
+                            </button>
+                        </div>
+
+                        <div class="space-y-4">
+                            <template x-for="(srv, idx) in services" :key="srv.id">
+                                <div class="glassmorphism p-5 rounded-md border border-brand-white/5 space-y-4">
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                        <div>
+                                            <label class="block text-[9px] uppercase tracking-widest text-brand-gold mb-1">Service Title</label>
+                                            <input type="text" x-model="srv.title" class="w-full bg-brand-black text-xs text-brand-white p-2 rounded border border-brand-white/5">
+                                        </div>
+                                        <div>
+                                            <label class="block text-[9px] uppercase tracking-widest text-brand-gold mb-1">Sub-Benefit Header</label>
+                                            <input type="text" x-model="srv.benefit" class="w-full bg-brand-black text-xs text-brand-white p-2 rounded border border-brand-white/5">
+                                        </div>
+                                        <div>
+                                            <label class="block text-[9px] uppercase tracking-widest text-brand-gold mb-1">Menu Icon (Bootstrap Icon Class)</label>
+                                            <input type="text" x-model="srv.icon" class="w-full bg-brand-black text-xs text-brand-white p-2 rounded border border-brand-white/5">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-[9px] uppercase tracking-widest text-brand-gold mb-1">Brief Description</label>
+                                        <textarea x-model="srv.description" rows="2" class="w-full bg-brand-black text-xs text-brand-white p-2 rounded border border-brand-white/5"></textarea>
+                                    </div>
+                                    <div class="flex justify-end gap-2">
+                                        <button @click="deleteServiceInCMS(srv.id)" class="bg-brand-red/20 hover:bg-brand-red text-brand-white text-[9px] uppercase tracking-widest px-3 py-1.5 rounded">
+                                            Delete Block
+                                        </button>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+
+
+                    <!-- TAB 4: TESTIMONIAL FEEDBACK CMS -->
+                    <div x-show="adminActiveTab === 'testimonials'" class="space-y-6">
+                        <div class="border-b border-brand-white/5 pb-4">
+                            <h3 class="text-lg font-serif text-brand-white">Exclusivity Guest Reviews Management</h3>
+                            <p class="text-xs text-brand-white/40">Configure and curate testimonials shown on the central web layout.</p>
+                        </div>
+
+                        <div class="space-y-4">
+                            <template x-for="item in testimonials" :key="item.id">
+                                <div class="glassmorphism p-5 rounded-md border border-brand-white/10 flex items-center justify-between gap-4">
+                                    <div class="space-y-1">
+                                        <p class="text-xs font-bold uppercase tracking-widest text-brand-gold" x-text="item.name"></p>
+                                        <p class="text-[10px] text-brand-white/60 font-serif italic" x-text="'&ldquo;' + item.text + '&rdquo;'"></p>
+                                    </div>
+                                    <button @click="deleteFeedbackInCMS(item.id)" class="text-brand-white/55 hover:text-brand-red p-2">
+                                        <i class="bi bi-trash text-lg"></i>
+                                    </button>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- CLIENT-SIDE REVIEW ADDITION MODAL -->
+    <div x-show="testimonialModalOpen" 
+         x-transition.opacity.duration.300ms 
+         class="fixed inset-0 z-50 bg-brand-black/95 flex items-center justify-center p-4">
+        <div class="glassmorphism w-full max-w-md p-8 rounded-lg border border-brand-gold/30 space-y-6 animate-fade-in">
+            <div class="flex items-center justify-between">
+                <h4 class="text-lg font-serif text-brand-white">Express Your Patron Feedback</h4>
+                <button @click="testimonialModalOpen = false" class="text-brand-white/60 hover:text-brand-white"><i class="bi bi-x-lg"></i></button>
+            </div>
+            
+            <form @submit.prevent="submitPatronFeedback">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-[10px] uppercase tracking-widest text-brand-gold font-bold mb-1">Your Full Name</label>
+                        <input type="text" x-model="feedbackForm.name" required class="w-full bg-brand-black border border-brand-white/10 p-3 text-xs text-brand-white rounded focus:outline-none focus:border-brand-gold">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] uppercase tracking-widest text-brand-gold font-bold mb-1">Grooming Department Preferred</label>
+                        <input type="text" x-model="feedbackForm.treatment" required placeholder="E.G. Moroccan Steam Bath" class="w-full bg-brand-black border border-brand-white/10 p-3 text-xs text-brand-white rounded focus:outline-none focus:border-brand-gold">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] uppercase tracking-widest text-brand-gold font-bold mb-1">Rating Value</label>
+                        <select x-model="feedbackForm.rating" class="w-full bg-brand-black border border-brand-white/10 p-3 text-xs text-brand-white rounded focus:outline-none focus:border-brand-gold">
+                            <option value="5">⭐⭐⭐⭐⭐ Platinum (5/5)</option>
+                            <option value="4">⭐⭐⭐⭐ Gold Standard (4/5)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] uppercase tracking-widest text-brand-gold font-bold mb-1">Your Honest Experience</label>
+                        <textarea x-model="feedbackForm.text" required rows="4" class="w-full bg-brand-black border border-brand-white/10 p-3 text-xs text-brand-white rounded focus:outline-none focus:border-brand-gold"></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-brand-gold text-brand-black py-4 rounded text-xs uppercase tracking-[0.2em] font-bold">
+                        Publish Patron Experience
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- ==============================================
+         SPA APP LOGIC ENGINE (VANIILA JS / ALPINE STATE)
+         ============================================== -->
+    <script>
+        function silkTouchApp() {
+            return {
+                // Loader & visual systems
+                loading: true,
+                scrolled: false,
+                mobileMenuOpen: false,
+                adminPortalOpen: false,
+                adminLoggedIn: false,
+                testimonialModalOpen: false,
+                notification: null,
+
+                // Input clear state
+                adminPinInput: '',
+                adminActiveTab: 'bookings',
+                todayDateString: '',
+
+                // Current Customer Forms
+                bookingForm: {
+                    name: '',
+                    phone: '',
+                    service: '',
+                    date: '',
+                    time: ''
+                },
+
+                feedbackForm: {
+                    name: '',
+                    treatment: '',
+                    rating: 5,
+                    text: ''
+                },
+
+                // Active variables
+                activeGalleryCat: 'all',
+
+                // Dynamic Database Stores (Simulated Local Storage persistence so everything updates in real time!)
+                bookings: [],
+                blockedSlots: ['12:30 PM', '04:00 PM'], // Starter default blocked hours
+                timeSlots: ['10:00 AM', '11:30 AM', '01:00 PM', '02:30 PM', '04:00 PM', '05:30 PM', '07:00 PM', '08:30 PM', '10:00 PM'],
+                
+                galleryCategories: [
+                    { id: 'all', name: 'All Spaces' },
+                    { id: 'bath', name: 'Moroccan Steam Suite' },
+                    { id: 'barber', name: 'Barber Suites' },
+                    { id: 'lounge', name: 'Lounge Atmosphere' }
+                ],
+
+                galleryImages: [
+                    { id: 1, category: 'bath', title: 'Royal Moroccan Chamber', desc: 'Sartorial marble bath designed and heated dynamically.', src: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&q=80&w=600' },
+                    { id: 2, category: 'barber', title: 'Private Grooming Suite', desc: 'Discreet ergonomic leather lounge with custom styling options.', src: 'https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&q=80&w=600' },
+                    { id: 3, category: 'lounge', title: 'Aman Relax Lounge', desc: 'Espresso & premium tea service available post-comfort session.', src: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&q=80&w=600' },
+                    { id: 4, category: 'bath', title: 'Eucalyptus Steam Suite', desc: 'Infused fresh botanical air treatment for full throat and chest recovery.', src: 'https://images.unsplash.com/photo-1600334129128-685c5582fd35?auto=format&fit=crop&q=80&w=600' },
+                    { id: 5, category: 'barber', title: 'Gentleman Shaving Suite', desc: 'Deep warm blade therapies combining premium Aesop serums.', src: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&q=80&w=600' },
+                    { id: 6, category: 'lounge', title: 'The Secure Sanctuary VIP', desc: 'Private soundproof waiting lounge strictly for VIP guests.', src: 'https://images.unsplash.com/photo-1517832606299-7ae9b720a186?auto=format&fit=crop&q=80&w=600' }
+                ],
+
+                services: [
+                    {
+                        id: 1,
+                        title: 'Elite Hair Styling',
+                        benefit: 'Sartorial Grooming',
+                        icon: 'bi-scissors',
+                        description: 'Customized clinical haircuts and straight shave therapies curated specifically to elevate your skull geometry.',
+                        bullets: ['Complimentary organic hair wash', 'Premium styling pomade architecture', 'Hot towel peppermint massage']
+                    },
+                    {
+                        id: 2,
+                        title: 'Moroccan Royal Bath',
+                        benefit: 'Aromatherapy Extract',
+                        icon: 'bi-layer-backward',
+                        description: 'Deep physical and respiratory cleanse executed inside our signature gold-accent heated marble steam rooms.',
+                        bullets: ['Traditional black olive soap scrub', 'Inhalation of pure eucalyptus oils', 'Exfoliating wash with luxury Kessa mitt']
+                    },
+                    {
+                        id: 3,
+                        title: 'Executive Massage Therapy',
+                        benefit: 'Tension Relief',
+                        icon: 'bi-activity',
+                        description: 'Heated bed massage protocols utilizing organic wellness oils to disintegrate stress and knots securely.',
+                        bullets: ['Certified elite therapist attention', 'Individually regulated cabin temperature', 'Targeted neck, spine, and foot treatment']
+                    },
+                    {
+                        id: 4,
+                        title: 'Aesthetic Face Refinement',
+                        benefit: 'Youthful Glow',
+                        icon: 'bi-gem',
+                        description: 'Gentle charcoal mask exfoliation with localized botanical steam pore opening routines to repair skin hydration.',
+                        bullets: ['Clinical blackhead pore extractor', 'Moisturizing premium serum spray', 'Facial architecture toning exercises']
+                    },
+                    {
+                        id: 5,
+                        title: 'Royal Pedicure & Manicure',
+                        benefit: 'Strict Hygiene',
+                        icon: 'bi-check-all',
+                        description: 'Impeccable clinical hand and foot spa rituals performed using individually sterile medical instruments.',
+                        bullets: ['Hydrating essential oil wrap', 'Subtle cuticle detail cleaning', 'Gentle pressure foot reflexology']
+                    },
+                    {
+                        id: 6,
+                        title: 'The VIP Complete Signature',
+                        benefit: 'Ultimate Suite Experience',
+                        icon: 'bi-lightning-charge',
+                        description: 'Our top-tier premium package. Locks a single private cabin suite exclusively for you for 3 complete hours.',
+                        bullets: ['Aesthetic hair cut & Moroccan bath combo', 'Full body executive oil therapy', 'Access to exclusive lounge & menu options']
+                    }
+                ],
+
+                testimonials: [
+                    { id: 1, name: 'Suhail Al-Mansoori', title: 'VIP Patron', treatment: 'Moroccan Royal Bath', rating: 5, text: 'This represents the single best Moroccan bath protocol available in the Northern Emirates. The privacy of the suite is absolute.' },
+                    { id: 2, name: 'Farhan bin Fahad', title: 'Ajman Resident', treatment: 'Elite Hair Styling', rating: 5, text: 'The Filipino therapists possess premium master certifications from Manila wellness centers. Flawless hospitality and extreme precision.' },
+                    { id: 3, name: 'Dr. Tariq Al-Suwaidi', title: 'Regular Guest', treatment: 'Executive Massage Therapy', rating: 5, text: 'No shouting barbers, no cheap radios. The music is minimal and comforting, reminiscent of real five-star Aman spa environments.' }
+                ],
+
+                // Init Application
+                initApp() {
+                    // Set up screen-scroll event
+                    window.addEventListener('scroll', () => {
+                        this.scrolled = window.scrollY > 50;
+                    });
+
+                    // Set today date to input
+                    const today = new Date();
+                    const dd = String(today.getDate()).padStart(2, '0');
+                    const mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+                    const yyyy = today.getFullYear();
+                    this.todayDateString = `${yyyy}-${mm}-${dd}`;
+                    this.bookingForm.date = this.todayDateString;
+
+                    // Pull dynamic data from local storage if existing
+                    this.pullLocalDb();
+
+                    // Resolve Loader state 
+                    setTimeout(() => {
+                        this.loading = false;
+                    }, 1200);
+                },
+
+                // Simulated Local Storage DB Actions
+                pullLocalDb() {
+                    const localBookings = localStorage.getItem('silkTouch_bookings');
+                    if (localBookings) {
+                        this.bookings = JSON.parse(localBookings);
+                    } else {
+                        this.bookings = [
+                            { id: 1, name: 'Eng. Khalid', phone: '+971501111111', service: 'Elite Hair Styling', date: this.todayDateString, time: '12:30 PM', status: 'Approved' },
+                            { id: 2, name: 'Majid Al Shamsi', phone: '+971502222222', service: 'Moroccan Royal Bath', date: this.todayDateString, time: '04:00 PM', status: 'Pending' }
+                        ];
+                        this.syncBookings();
+                    }
+
+                    const localBlocked = localStorage.getItem('silkTouch_blocked_slots');
+                    if (localBlocked) {
+                        this.blockedSlots = JSON.parse(localBlocked);
+                    }
+
+                    const localServices = localStorage.getItem('silkTouch_services');
+                    if (localServices) {
+                        this.services = JSON.parse(localServices);
+                    }
+
+                    const localTestimonials = localStorage.getItem('silkTouch_testimonials');
+                    if (localTestimonials) {
+                        this.testimonials = JSON.parse(localTestimonials);
+                    }
+                },
+
+                syncBookings() {
+                    localStorage.setItem('silkTouch_bookings', JSON.stringify(this.bookings));
+                },
+
+                syncBlockedSlots() {
+                    localStorage.setItem('silkTouch_blocked_slots', JSON.stringify(this.blockedSlots));
+                },
+
+                syncServices() {
+                    localStorage.setItem('silkTouch_services', JSON.stringify(this.services));
+                },
+
+                syncTestimonials() {
+                    localStorage.setItem('silkTouch_testimonials', JSON.stringify(this.testimonials));
+                },
+
+                // Block/Free Slot check UI triggers
+                isTimeBlocked(time) {
+                    // Check if current date and time combination exists as an approved booking, OR manual administrative block
+                    const isManualBlocked = this.blockedSlots.includes(time);
+                    const isBooked = this.bookings.some(b => b.date === this.bookingForm.date && b.time === time && b.status === 'Approved');
+                    return isManualBlocked || isBooked;
+                },
+
+                selectTime(time) {
+                    if (this.isTimeBlocked(time)) return;
+                    this.bookingForm.time = time;
+                },
+
+                // Navigation Link Select Service shortcut
+                selectServiceInForm(serviceTitle) {
+                    this.bookingForm.service = serviceTitle;
+                    // Auto scroll to form
+                    document.getElementById('booking').scrollIntoView();
+                },
+
+                // Form Actions
+                submitBooking() {
+                    if (!this.bookingForm.time) {
+                        this.showNotification('Hold Reservation Error', 'Please select a specific appointment hour.', true);
+                        return;
+                    }
+
+                    // Create database element
+                    const newId = this.bookings.length + 1;
+                    const bRequest = {
+                        id: newId,
+                        name: this.bookingForm.name,
+                        phone: this.bookingForm.phone,
+                        service: this.bookingForm.service,
+                        date: this.bookingForm.date,
+                        time: this.bookingForm.time,
+                        status: 'Pending'
+                    };
+
+                    this.bookings.push(bRequest);
+                    this.syncBookings();
+
+                    // Generate professional WhatsApp link payload
+                    const formattedMsg = `Hello Silk Touch,
+I would like to book an appointment.
+
+Date: ${this.bookingForm.date}
+Time: ${this.bookingForm.time}
+Service: ${this.bookingForm.service}
+Guest Name: ${this.bookingForm.name}
+Phone: ${this.bookingForm.phone}
+
+Please confirm availability.`;
+
+                    const finalWaLink = `https://wa.me/971509174778?text=${encodeURIComponent(formattedMsg)}`;
+                    
+                    // Direct dispatch to Whatsapp
+                    window.open(finalWaLink, '_blank');
+
+                    // Reset form & notify UX
+                    this.showNotification('Reservation Generated', 'Opening WhatsApp dispatch container.');
+                    
+                    // Reset Form Parameters
+                    this.bookingForm.name = '';
+                    this.bookingForm.phone = '';
+                    this.bookingForm.service = '';
+                    this.bookingForm.time = '';
+                },
+
+                submitPatronFeedback() {
+                    const newId = this.testimonials.length + 1;
+                    const feedback = {
+                        id: newId,
+                        name: this.feedbackForm.name,
+                        treatment: this.feedbackForm.treatment,
+                        rating: parseInt(this.feedbackForm.rating),
+                        text: this.feedbackForm.text,
+                        title: 'Verified Client'
+                    };
+
+                    this.testimonials.unshift(feedback);
+                    this.syncTestimonials();
+
+                    // Reset form & hide modal
+                    this.feedbackForm.name = '';
+                    this.feedbackForm.treatment = '';
+                    this.feedbackForm.text = '';
+                    this.testimonialModalOpen = false;
+
+                    this.showNotification('Feedback Evaluated', 'Your luxury grooming experience has been saved below.');
+                },
+
+                // Notification Alert System
+                showNotification(title, message, isError = false) {
+                    this.notification = { title, message };
+                    setTimeout(() => {
+                        this.notification = null;
+                    }, 5000);
+                },
+
+                // CMS ADMINISTRATIVE OPERATIONS
+                loginAdmin() {
+                    if (this.adminPinInput === '1234') {
+                        this.adminLoggedIn = true;
+                        this.adminPinInput = '';
+                        this.showNotification('Access Granted', 'Cloud DB sync protocol authorized.');
+                    } else {
+                        this.showNotification('Access Denied', 'Please retry with the standard password pin.', true);
+                    }
+                },
+
+                approveBooking(id) {
+                    const b = this.bookings.find(item => item.id === id);
+                    if (b) {
+                        b.status = 'Approved';
+                        this.syncBookings();
+                        this.showNotification('Appointment Approved', 'Dynamic booking slots adjusted.');
+                    }
+                },
+
+                rejectBooking(id) {
+                    const b = this.bookings.find(item => item.id === id);
+                    if (b) {
+                        b.status = 'Rejected';
+                        this.syncBookings();
+                        this.showNotification('Appointment Rejected', 'Space returned back on dispatch schedule.');
+                    }
+                },
+
+                deleteBooking(id) {
+                    this.bookings = this.bookings.filter(b => b.id !== id);
+                    this.syncBookings();
+                    this.showNotification('Record Erased', 'Appointment has been completed or deleted permanently.');
+                },
+
+                toggleBlockSlotInCMS(time) {
+                    if (this.blockedSlots.includes(time)) {
+                        this.blockedSlots = this.blockedSlots.filter(s => s !== time);
+                        this.showNotification('Slot Activated', `${time} is now open for public booking.`);
+                    } else {
+                        this.blockedSlots.push(time);
+                        this.showNotification('Slot Blocked', `${time} has been frozen for administrative tasks.`);
+                    }
+                    this.syncBlockedSlots();
+                },
+
+                deleteServiceInCMS(id) {
+                    this.services = this.services.filter(s => s.id !== id);
+                    this.syncServices();
+                    this.showNotification('Service Removed', 'The department was taken down from the main template menu.');
+                },
+
+                addNewServiceInCMS() {
+                    const newId = this.services.length + 1;
+                    const newSrv = {
+                        id: newId,
+                        title: 'New Service Block',
+                        benefit: 'Gold Standard',
+                        icon: 'bi-gem',
+                        description: 'Administrative description block ready for customization.',
+                        bullets: ['Signature custom item #1', 'Signature custom item #2']
+                    };
+                    this.services.push(newSrv);
+                    this.syncServices();
+                    this.showNotification('Service Block Injected', 'Scroll down to configure custom descriptions.');
+                },
+
+                deleteFeedbackInCMS(id) {
+                    this.testimonials = this.testimonials.filter(t => t.id !== id);
+                    this.syncTestimonials();
+                    this.showNotification('Review Deleted', 'Patron entry removed from home page loop.');
+                }
+            };
+        }
+    </script>
+<script>document.body.addEventListener('wheel', e => { if (!e.ctrlKey) return; e.preventDefault(); return }, { passive: false })</script>
+	</body>
+</html>
